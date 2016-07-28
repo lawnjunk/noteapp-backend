@@ -12,6 +12,7 @@ const debug = require('debug')('note:server');
 // app modules
 const handleError = require('./lib/handle-error');
 const listRouter = require('./router/list-router');
+const noteRouter = require('./router/note-router');
 
 // module constants
 const app = express();
@@ -27,6 +28,8 @@ app.use(morgan('dev'));
 
 // express routes
 app.use('/api', listRouter);
+app.use('/api', noteRouter);
+
 
 app.all('*', function(req, res, next){
   debug('hit 404 route');
