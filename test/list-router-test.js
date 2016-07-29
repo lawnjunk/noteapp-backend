@@ -7,6 +7,7 @@ process.env.MONGODB_URI = 'mongodb://localhost/notetest';
 const request = require('superagent-use');
 const superPromse = require('superagent-promise-plugin');
 const expect = require('chai').expect;
+const Promise = require('bluebird');
 
 // app modules
 const List = require('../model/list');
@@ -14,6 +15,7 @@ const Note = require('../model/note');
 require('../server');
 
 request.use(superPromse);
+
 
 describe('testing list routes', function(){
   describe('testing POST /api/list', function(){
@@ -62,24 +64,29 @@ describe('testing list routes', function(){
     before((done) => {
       new List({name: 'example list'}).save()
         .then( list => {
-          new Note({
+          this.tempList = list;
+          return this.tempList.addNote({
+            name: 'first note',
+            content: 'test data',
+            listId: this.tempList._id,
+          })
+        }).then(() => {
+          return this.tempList.addNote({
             name: 'second note',
             content: 'test data',
-            listId: list._id,
-          }).save()
-          .then( note => {
-            list.notes.push(note._id);
-            return list.save()
-            .then(list => {
-              this.tempList = list;
-              done();
-            }).catch(done)
-          }).catch(done)
-        }).catch(done)
+            listId: this.tempList._id,
+          })
+        })
+        .then(() => done())
+        .catch(done)
     });
 
     after((done) => {
-      List.remove({}).then( () => done()).catch(done);
+      Promise.all([
+       List.remove({}),
+       Note.remove({}),
+      ])
+      .then( () => done()).catch(done);
     });
 
     it('should return a note', (done) => {
@@ -87,7 +94,8 @@ describe('testing list routes', function(){
       .then( res => {
         let data = res.body;
         expect(data.name).to.eql('example list');
-        console.log('list:id', data)
+        expect(data.notes[0].name).to.eql('first note');
+        expect(data.notes[1].name).to.eql('second note');
         done();
       })
       .catch(done)

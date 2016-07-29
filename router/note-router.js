@@ -18,20 +18,12 @@ let noteRouter = module.exports = exports = new Router();
 noteRouter.post('/note', jsonParser, function(req, res, next){
   debug('POST /api/note');
   let data = req.body;
-  if (!data.name || !data.content || !data.listId) 
-    return next(createError(400, 'ERROR: validation error'));
   List.findById(data.listId)
     .then( list => {
-      new Note(req.body).save().then( note => {
-        list.notes.push(note);
-        console.log('list.notes', list);
-        list.save().then((newlist) =>{
-          console.log('new list', newlist);
-          res.send(note)
-        }).catch(next);
-      })
-    })
-    .catch(err => next(createError(404, 'list does not exist')));
+      list.addNote(req.body)
+        .then( note => res.json(note))
+        .catch(next)
+    }).catch(err => next(createError(404, 'list does not exist')));
 })
 
 noteRouter.get('/note', function(req,res,next){
@@ -41,7 +33,7 @@ noteRouter.get('/note', function(req,res,next){
 
 noteRouter.get('/note/:id', function(req,res,next){
   debug('GET /api/note/:id');
-  Note.findOne({_id: req.params.id})
+  Note.findById(req.params.id)
     .then( note => res.send(note))
     .catch( err => next(createError(404, err.message)));
 });
@@ -55,7 +47,13 @@ noteRouter.put('/note/:id', jsonParser, function(req, res, next){
 
 noteRouter.delete('/note/:id', jsonParser, function(req, res, next){
   debug('PUT /api/note/:id');
-  Note.findByIdAndRemove(req.params.id)
-    .then( note => res.send(note))
+  Note.findById(req.params.id)
+    .then( note => {
+      return List.findById(note.listId)
+    })
+    .then( list => {
+      return list.removeNoteById(req.params.id)
+    })
+    .then( note => res.json(note))
     .catch(next)
 });

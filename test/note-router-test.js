@@ -51,20 +51,21 @@ describe('testing note routes', function(){
     before((done) => {
       new List({name: 'example'}).save()
         .then( list => {
-          this.tempList = list;
           return Promise.all([
-            new Note({
+            list.addNote({
               name: 'first note',
               content: 'test data',
               listId: list._id,
-            }).save(),
-            new Note({
+            }),
+            list.addNote({
               name: 'second note',
               content: 'test data',
               listId: list._id,
-            }).save(),
-          ]).then(() => done())
-        }).catch(done)
+            })
+          ])
+        })
+      .then(() => done())
+      .catch(done)
     })
 
     after((done) => {
@@ -86,11 +87,19 @@ describe('testing note routes', function(){
 
   describe('testing GET /api/note/:id', function(){
     before((done) => {
-      new Note({name: 'example note'}).save()
-      .then((note) => {
-        this.tempNote = note;
-        done();
-      }).catch(done)
+      new List({name: 'example'}).save()
+        .then( list => {
+          this.tempList = list;
+          return list.addNote({
+            name: 'example',
+            content: 'dummy data',
+            listId: this.tempList._id,
+          })
+          .then((note) => {
+            this.tempNote = note;
+            done();
+          }).catch(done)
+        }).catch(done)
     })
 
     after((done) => {
@@ -101,7 +110,9 @@ describe('testing note routes', function(){
       request.get(`localhost:3000/api/note/${this.tempNote._id}`)
       .then( res => {
         let data = res.body;
-        expect(data.name).to.eql('example note');
+        expect(data.name).to.eql('example');
+        expect(data.content).to.eql('dummy data');
+        expect(data.listId).to.eql(`${this.tempList._id}`);
         done();
       })
       .catch(done)
@@ -110,11 +121,19 @@ describe('testing note routes', function(){
 
   describe('testing PUT /api/note/:id', function(){
     before((done) => {
-      new Note({name: 'example note'}).save()
-      .then((note) => {
-        this.tempNote = note;
-        done();
-      }).catch(done)
+      new List({name: 'example'}).save()
+        .then( list => {
+          this.tempList = list;
+          return list.addNote({
+            name: 'example',
+            content: 'dummy data',
+            listId: this.tempList._id,
+          })
+          .then((note) => {
+            this.tempNote = note;
+            done();
+          }).catch(done)
+        }).catch(done)
     })
 
     after((done) => {
@@ -137,11 +156,19 @@ describe('testing note routes', function(){
 
   describe('testing DELETE /api/note/:id', function(){
     before((done) => {
-      new Note({name: 'example note'}).save()
-      .then((note) => {
-        this.tempNote = note;
-        done();
-      }).catch(done)
+      new List({name: 'example'}).save()
+        .then( list => {
+          this.tempList = list;
+          return list.addNote({
+            name: 'example',
+            content: 'dummy data',
+            listId: this.tempList._id,
+          })
+          .then((note) => {
+            this.tempNote = note;
+            done();
+          }).catch(done)
+        }).catch(done)
     })
 
     after((done) => {
@@ -152,7 +179,7 @@ describe('testing note routes', function(){
       request.del(`localhost:3000/api/note/${this.tempNote._id}`)
       .then( res => {
         let data = res.body;
-        expect(data.name).to.eql('example note');
+        expect(data.name).to.eql('example');
         done();
       })
       .catch(done)
