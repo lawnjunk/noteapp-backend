@@ -9,9 +9,10 @@
   "dependencies": {
     "bluebird": "^3.4.1",
     "body-parser": "^1.15.2",
+    "cors": "^2.7.1",
     "debug": "^2.2.0",
-    "http-errors": "^1.5.0",
     "express": "^4.14.0",
+    "http-errors": "^1.5.0",
     "mongoose": "^4.5.7",
     "morgan": "^1.7.0"
   },
@@ -26,7 +27,7 @@
   "scripts": {
     "start": "node server.js",
     "watch": "DEBUG=note* ./node_modules/nodemon/bin/nodemon.js ./server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/mocha/bin/mocha ./test"
   },
   "keywords": [],
   "author": "",

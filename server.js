@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 const Promise = require('bluebird');
 const createError = require('http-errors');
 const debug = require('debug')('note:server');
+const cors = require('cors')
 
 // app modules
 const handleError = require('./lib/handle-error');
@@ -25,6 +26,7 @@ mongoose.connect(mongoDbUri);
 
 // -- express middleware
 app.use(morgan('dev'));
+app.use(cors());
 
 // express routes
 app.use('/api', listRouter);
