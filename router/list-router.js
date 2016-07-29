@@ -31,8 +31,14 @@ listRouter.get('/list', function(req,res,next){
 listRouter.get('/list/:id', function(req,res,next){
   debug('GET /api/list/:id');
   List.findOne({_id: req.params.id})
-    .then( list => res.send(list))
-    .catch( err => next(createError(404, err.message)));
+    .populate('notes')
+    .exec( (err, data) => {
+      if (err) return next(createError(404, err.message));
+      res.json(data);
+    })
+
+    //.then( list => res.send(list))
+    //.catch( err => next(createError(404, err.message)));
 });
 
 listRouter.put('/list/:id', jsonParser, function(req, res, next){

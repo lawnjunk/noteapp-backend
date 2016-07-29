@@ -10,6 +10,7 @@ const expect = require('chai').expect;
 
 // app modules
 const List = require('../model/list');
+const Note = require('../model/note');
 require('../server');
 
 request.use(superPromse);
@@ -60,11 +61,22 @@ describe('testing list routes', function(){
   describe('testing GET /api/list/:id', function(){
     before((done) => {
       new List({name: 'example list'}).save()
-      .then((list) => {
-        this.tempList = list;
-        done();
-      }).catch(done)
-    })
+        .then( list => {
+          new Note({
+            name: 'second note',
+            content: 'test data',
+            listId: list._id,
+          }).save()
+          .then( note => {
+            list.notes.push(note._id);
+            return list.save()
+            .then(list => {
+              this.tempList = list;
+              done();
+            }).catch(done)
+          }).catch(done)
+        }).catch(done)
+    });
 
     after((done) => {
       List.remove({}).then( () => done()).catch(done);
@@ -75,6 +87,7 @@ describe('testing list routes', function(){
       .then( res => {
         let data = res.body;
         expect(data.name).to.eql('example list');
+        console.log('list:id', data)
         done();
       })
       .catch(done)

@@ -9,6 +9,7 @@ const debug = require('debug')('note:note-router');
 
 // app modules
 const Note = require('../model/note');
+const List = require('../model/list');
 
 //module constants
 let noteRouter = module.exports = exports = new Router();
@@ -19,9 +20,18 @@ noteRouter.post('/note', jsonParser, function(req, res, next){
   let data = req.body;
   if (!data.name || !data.content || !data.listId) 
     return next(createError(400, 'ERROR: validation error'));
-  new Note(req.body).save().then( note => {
-      res.json(note)
-  }).catch(next)
+  List.findById(data.listId)
+    .then( list => {
+      new Note(req.body).save().then( note => {
+        list.notes.push(note);
+        console.log('list.notes', list);
+        list.save().then((newlist) =>{
+          console.log('new list', newlist);
+          res.send(note)
+        }).catch(next);
+      })
+    })
+    .catch(err => next(createError(404, 'list does not exist')));
 })
 
 noteRouter.get('/note', function(req,res,next){
