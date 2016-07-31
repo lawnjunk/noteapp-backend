@@ -9,6 +9,7 @@ const debug = require('debug')('note:list-router');
 
 // app modules
 const List = require('../model/list');
+const Note = require('../model/note');
 
 //module constants
 let listRouter = module.exports = exports = new Router();
@@ -25,20 +26,17 @@ listRouter.post('/list', jsonParser, function(req, res, next){
 
 listRouter.get('/list', function(req,res,next){
   debug('GET /api/list/');
-  List.find({}).then( lists => res.send(lists)).catch(next);
+  List.find({})
+    .populate('notes')
+    .then( lists => res.send(lists)).catch(next);
 });
 
 listRouter.get('/list/:id', function(req,res,next){
   debug('GET /api/list/:id');
   List.findOne({_id: req.params.id})
     .populate('notes')
-    .exec( (err, data) => {
-      if (err) return next(createError(404, err.message));
-      res.json(data);
-    })
-
-    //.then( list => res.send(list))
-    //.catch( err => next(createError(404, err.message)));
+    .then( list => res.send(list))
+    .catch( err => next(createError(404, err.message)));
 });
 
 listRouter.put('/list/:id', jsonParser, function(req, res, next){
@@ -49,8 +47,15 @@ listRouter.put('/list/:id', jsonParser, function(req, res, next){
 });
 
 listRouter.delete('/list/:id', jsonParser, function(req, res, next){
+  let result;
   debug('PUT /api/list/:id');
   List.findByIdAndRemove(req.params.id)
-    .then( list => res.send(list))
+    .then( list => {
+      result = list;
+      return Note.remove({listId: list._id});
+    })
+    .then(() => {
+      res.json(result);
+    })    
     .catch(next)
 });
