@@ -40,7 +40,7 @@
   "_id": "57a10f8653481f70fc61f71d",
   "_v": 0,
   "name": "todo list",
-  "notes" []
+  "notes": []
 }
 ```
 
@@ -56,7 +56,7 @@
   "_id": "57a10f8653481f70fc61f71d",
   "_v": 0,
   "name": "todo list",
-  "notes" []
+  "notes": []
 }
 ```
 
@@ -73,13 +73,13 @@
     "_id": "57a10f8653481f70fc61f71d",
     "_v": 0,
     "name": "todo list",
-    "notes" []
+    "notes": []
   },
   {
     "_id": "57a10f8653481f70fcaslfdk",
     "_v": 0,
     "name": "work list",
-    "notes" []
+    "notes": []
   }
 ]
 ```
@@ -102,7 +102,7 @@
   "_id": "57a10f8653481f70fc61f71d",
   "_v": 0,
   "name": "example list name",
-  "notes" []
+  "notes": []
 }
 ```
 
