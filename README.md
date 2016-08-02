@@ -23,7 +23,8 @@
 
 # Endpoints
 ## POST `/api/list`
-> To create a new list make a POST request to `/api/list` 
+> To create a new list make a POST request to `/api/list`   
+
 * expected Headers
  * `Accept: application/json`
  * `Content-Type: application/json`
@@ -44,7 +45,8 @@
 ```
 
 ## GET`/api/list/:id`
-> To fetch a specific list make a GET request to `/api/list/:id`
+> To fetch a specific list make a GET request to `/api/list/:id`  
+
 * expected Headers
  * `Accept: application/json`  
 #### Response
@@ -58,9 +60,10 @@
 ```
 
 ## GET`/api/list`
-> To fetch an array of all the lists make a GET request to `/api/list`
+> To fetch an array of all the lists make a GET request to `/api/list`  
+
 * expected Headers
- * `Accept: application/json`  
+ * `Accept: application/json`   
 #### Response
 ``` JSON
 [
@@ -80,7 +83,8 @@
 ```
 
 ## PUT `/api/list/:id`
-> To update an existing list make a PUT request to `/api/list/:id` 
+> To update an existing list make a PUT request to `/api/list/:id`   
+
 * expected Headers
  * `Accept: application/json`
  * `Content-Type: application/json`
@@ -101,7 +105,8 @@
 ```
 
 ## DELETE `/api/list/:id`
-> To delete a specific list make a GET request to `/api/list/:id`
+> To delete a specific list make a GET request to `/api/list/:id`  
+
 * expected Headers
  * `Accept: application/json`  
 #### Response 
