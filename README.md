@@ -49,6 +49,7 @@
 
 * expected Headers
  * `Accept: application/json`  
+
 #### Response
 ``` JSON
 {
@@ -63,7 +64,8 @@
 > To fetch an array of all the lists make a GET request to `/api/list`  
 
 * expected Headers
- * `Accept: application/json`   
+ * `Accept: application/json`
+
 #### Response
 ``` JSON
 [
@@ -109,6 +111,7 @@
 
 * expected Headers
  * `Accept: application/json`  
+
 #### Response 
 ``` JSON
 {
