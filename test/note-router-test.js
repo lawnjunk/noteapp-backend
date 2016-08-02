@@ -38,7 +38,6 @@ describe('testing note routes', function(){
         })
       .then( res => {
         let data = res.body;
-        expect(data.name).to.eql('call mom');
         expect(data.content).to.eql('this is extreemly important');
         expect(data.listId).to.eql(`${this.tempList._id}`);
         done();

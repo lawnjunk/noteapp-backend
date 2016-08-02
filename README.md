@@ -21,7 +21,7 @@
 }
 ```
 
-# Endpoints
+# List Endpoints
 ## POST `/api/list`
 > To create a new list make a POST request to `/api/list` 
 * expected Headers
@@ -113,6 +113,113 @@
   "_v": 0,
   "name": "todo list",
   "notes" []
+}
+```
+
+
+# Note Endpoints
+## POST `/api/note`
+> To create a new note make a POST request to `/api/note` 
+* expected Headers
+ * `Accept: application/json`
+ * `Content-Type: application/json`
+* expected JSON data 
+``` JSON
+{
+  "name": "todo note",
+  "content": "example note content",
+  "listId": "57a10f8653481f70fc61f71d"
+}
+```
+#### Response
+``` JSON
+{
+  "_id": "57a113957ada0d8307cd3e3e"
+  "_v": 0,
+  "name": "todo note",
+  "content": "example note content",
+  "listId": "57a10f8653481f70fc61f71d"
+}
+```
+
+## GET`/api/note/:id`
+> To fetch a specific note make a GET request to `/api/note/:id`
+* expected Headers
+ * `Accept: application/json`
+
+#### Response
+``` JSON
+{
+  "_id": "57a113957ada0d8307cd3e3e"
+  "_v": 0,
+  "name": "todo note",
+  "content": "example note content",
+  "listId": "57a10f8653481f70fc61f71d"
+}
+```
+
+## GET`/api/note`
+> To fetch an array of all the notes make a GET request to `/api/note`
+* expected Headers
+ * `Accept: application/json`
+#### Response
+``` JSON
+[
+  {
+    "_id": "57a113957ada0d8307cd3e3e"
+    "_v": 0,
+    "name": "paint boat",
+    "content": "example note content",
+    "listId": "57a10f8653481f70fc61f71d"
+  },
+  {
+    "_id": "57a113957ada0d8307cdf7ad"
+    "_v": 0,
+    "name": "clean car",
+    "content": "example note content",
+    "listId": "57a10f8653481f70fc61f71d"
+  }
+]
+```
+
+## PUT `/api/note/:id`
+> To update an existing note make a PUT request to `/api/note/:id` 
+* expected Headers
+ * `Accept: application/json`
+ * `Content-Type: application/json`
+* expected JSON data 
+ * optional name
+ * optional content
+``` JSON
+{
+  "name": "todo note",
+  "content": "example note content",
+}
+```
+#### Response
+``` JSON
+{
+  "_id": "57a113957ada0d8307cdf7ad"
+  "_v": 0,
+  "name": "todo note",
+  "content": "example note content",
+  "listId": "57a10f8653481f70fc61f71d"
+}
+```
+
+## DELETE `/api/note/:id`
+> To delete a specific note make a GET request to `/api/note/:id`
+* expected Headers
+ * `Accept: application/json`
+
+#### Response
+``` JSON
+{
+  "_id": "57a113957ada0d8307cdf7ad"
+  "_v": 0,
+  "name": "todo note",
+  "content": "example note content",
+  "listId": "57a10f8653481f70fc61f71d"
 }
 ```
 
