@@ -30,7 +30,7 @@
 * expected JSON data 
 ``` JSON
 {
-  "name": "todo list",
+  "name": "todo list"
 }
 ```
 #### Response
@@ -47,7 +47,6 @@
 > To fetch a specific list make a GET request to `/api/list/:id`
 * expected Headers
  * `Accept: application/json`
-
 #### Response
 ``` JSON
 {
@@ -88,7 +87,7 @@
 * expected JSON data 
 ``` JSON
 {
-  "name": "example list name",
+  "name": "example list name"
 }
 ```
 #### Response
@@ -105,14 +104,13 @@
 > To delete a specific list make a GET request to `/api/list/:id`
 * expected Headers
  * `Accept: application/json`
-
 #### Response
 ``` JSON
 {
   "_id": "5ka10f8653481f70fc61f71d",
   "_v": 0,
   "name": "todo list",
-  "notes" []
+  "notes": []
 }
 ```
 
