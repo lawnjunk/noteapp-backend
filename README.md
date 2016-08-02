@@ -32,7 +32,7 @@
 {
   "name": "todo list"
 }
-```
+```  
 #### Response
 ``` JSON
 {
@@ -46,7 +46,7 @@
 ## GET`/api/list/:id`
 > To fetch a specific list make a GET request to `/api/list/:id`
 * expected Headers
- * `Accept: application/json`
+ * `Accept: application/json`  
 #### Response
 ``` JSON
 {
@@ -60,7 +60,7 @@
 ## GET`/api/list`
 > To fetch an array of all the lists make a GET request to `/api/list`
 * expected Headers
- * `Accept: application/json`
+ * `Accept: application/json`  
 #### Response
 ``` JSON
 [
@@ -88,8 +88,8 @@
 ``` JSON
 {
   "name": "example list name"
-}
-```
+} 
+```  
 #### Response
 ``` JSON
 {
@@ -103,8 +103,8 @@
 ## DELETE `/api/list/:id`
 > To delete a specific list make a GET request to `/api/list/:id`
 * expected Headers
- * `Accept: application/json`
-#### Response
+ * `Accept: application/json`  
+#### Response 
 ``` JSON
 {
   "_id": "5ka10f8653481f70fc61f71d",
