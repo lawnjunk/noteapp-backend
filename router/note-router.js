@@ -23,7 +23,7 @@ noteRouter.post('/note', jsonParser, function(req, res, next){
       list.addNote(req.body)
         .then( note => res.json(note))
         .catch(next)
-    }).catch(err => next(createError(404, 'list does not exist')))
+    }).catch(() => next(createError(404, 'list does not exist')))
 })
 
 noteRouter.get('/note', function(req,res,next){
@@ -55,6 +55,6 @@ noteRouter.delete('/note/:id', jsonParser, function(req, res, next){
     .then( list => {
       return list.removeNoteById(req.params.id)
     })
-    .then( note => res.status(204).send())
+    .then( () => res.status(204).send())
     .catch(next)
 })

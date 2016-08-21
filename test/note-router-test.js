@@ -60,7 +60,7 @@ describe('testing note routes', function(){
               name: 'second note',
               content: 'test data',
               listId: list._id,
-            })
+            }),
           ])
         })
       .then(() => done())

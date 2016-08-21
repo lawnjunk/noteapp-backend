@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "chai": "^3.5.0",
+    "eslint": "^3.3.1",
     "mocha": "^2.5.3",
     "nodemon": "^1.10.0",
     "superagent": "^2.1.0",
@@ -29,7 +30,8 @@
   "scripts": {
     "start": "node server.js",
     "watch": "DEBUG=note* APP_SECRET='lulwat' ./node_modules/nodemon/bin/nodemon.js ./server.js",
-    "test": "./node_modules/mocha/bin/mocha ./test"
+    "test": "./node_modules/mocha/bin/mocha ./test",
+    "lint": "./node_modules/eslint/bin/eslint.js ."
   },
   "keywords": [],
   "author": "",
