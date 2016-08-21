@@ -145,8 +145,7 @@ describe('testing list routes', function(){
     it('should return a note', (done) => {
       request.del(`localhost:3000/api/list/${this.tempList._id}`)
       .then( res => {
-        let data = res.body;
-        expect(data.name).to.eql('example list');
+        expect(res.status).to.eql(204);
         done();
       })
       .catch(done)

@@ -10,10 +10,12 @@ const createError = require('http-errors');
 const debug = require('debug')('note:server');
 const cors = require('cors')
 
+
 // app modules
 const handleError = require('./lib/handle-error');
 const listRouter = require('./router/list-router');
 const noteRouter = require('./router/note-router');
+const authRouter = require('./router/auth-router.js');
 
 // module constants
 const app = express();
@@ -29,9 +31,9 @@ app.use(morgan('dev'));
 app.use(cors());
 
 // express routes
+app.use('/api', authRouter);
 app.use('/api', listRouter);
 app.use('/api', noteRouter);
-
 
 app.all('*', function(req, res, next){
   debug('hit 404 route');
