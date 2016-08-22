@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken')
 const mongoose = require('mongoose')
 const httpErrors = require('http-errors')
 const debug = require('debug')('note:user')
+const createError = require('http-errors')
 
 const userSchema = mongoose.Schema({
   username: {type: String, required: true, unique: true},
@@ -16,8 +17,9 @@ const userSchema = mongoose.Schema({
 userSchema.methods.generateHash = function(password){
   debug('generateHash')
   return new Promise((resolve, reject) => {
+    if (!password) return reject(createError(400,'password required'))
     bcrypt.hash(password, 8, (err, hash) => {
-      if(err) reject(err)
+      if(err) return reject(err)
       this.password = hash
       resolve(this)
     })
@@ -27,6 +29,7 @@ userSchema.methods.generateHash = function(password){
 userSchema.methods.compareHash = function(password){
   debug('compareHash')
   return new Promise((resolve, reject) => {
+    if (!password) return reject(createError(400,'password required'))
     bcrypt.compare( password, this.password, (err, result) => {
       // if bcrypt brakes 500 error
       if (err) return reject(err)

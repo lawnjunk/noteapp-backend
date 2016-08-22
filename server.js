@@ -1,5 +1,4 @@
 'use strict'
-
 // node modules
 // npm modules
 const morgan = require('morgan')
@@ -9,7 +8,6 @@ const Promise = require('bluebird')
 const createError = require('http-errors')
 const debug = require('debug')('note:server')
 const cors = require('cors')
-
 
 // app modules
 const handleError = require('./lib/handle-error')

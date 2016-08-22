@@ -30,6 +30,8 @@
   "scripts": {
     "start": "node server.js",
     "watch": "DEBUG=note* APP_SECRET='lulwat' ./node_modules/nodemon/bin/nodemon.js ./server.js",
+    "watch:test": "DEBUG=note* APP_SECRET='lulwat' ./node_modules/nodemon/bin/nodemon.js  ./node_modules/mocha/bin/mocha",
+    "watch:lint": "./node_modules/nodemon/bin/nodemon.js -w . -x './node_modules/eslint/bin/eslint.js .'",
     "test": "./node_modules/mocha/bin/mocha ./test",
     "lint": "./node_modules/eslint/bin/eslint.js ."
   },
