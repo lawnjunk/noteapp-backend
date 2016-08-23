@@ -50,7 +50,6 @@ noteRouter.delete('/note/:id', jsonParser, function(req, res, next){
   debug('DELETE /api/note/:id')
   Note.findById(req.params.id)
     .then( note => {
-      console.log('note', req.params.id)
       return List.findById(note.listId)
     })
     .then( list => {
