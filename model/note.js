@@ -1,16 +1,15 @@
-'use strict';
+'use strict'
 
-const Promise = require('bluebird');
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-const debug = require('debug')('note:note');
+const Promise = require('bluebird')
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
 
-Promise.promisifyAll(mongoose);
+Promise.promisifyAll(mongoose)
 
 let noteSchema = Schema({
   name: {type: String, required: true},
   listId: {type: Schema.Types.ObjectId, required: true},
   content: {type: String, require: true},
-});
+})
 
-module.exports = mongoose.model('Note', noteSchema);
+module.exports = mongoose.model('Note', noteSchema)

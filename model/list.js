@@ -1,41 +1,43 @@
-'use strict';
+'use strict'
 
-const Promise = require('bluebird');
-const mongoose = require('mongoose');
-const debug = require('debug')('note:list');
-const Note = require('./note');
-const createError = require('http-errors');
+const Promise = require('bluebird')
+const mongoose = require('mongoose')
+const debug = require('debug')('note:list')
+const Note = require('./note')
+const createError = require('http-errors')
 
-//Promise.promisifyAll(mongoose);
+//Promise.promisifyAll(mongoose)
 
-mongoose.Promise = Promise;
+mongoose.Promise = Promise
 
 const listSchema = mongoose.Schema({
   name: {type: String, required: true},
+  userId: {type: mongoose.Schema.Types.ObjectId, required: true},
   notes: [{type: mongoose.Schema.Types.ObjectId, ref: 'Note', unique: true}],
-});
+})
 
 listSchema.methods.addNote = function(data){
-  let result;
+  debug('List.addNote')
+  let result
   return new Promise((resolve, reject) => {
     if (!data.name || !data.content || !data.listId)
-      return reject(createError(400, 'note requires name, content, and listId'));
+      return reject(createError(400, 'note requires name, content, and listId'))
     new Note(data).save()
       .then(note => {
-        result = note;
-        this.notes.push(note._id);
-        return this.save(); 
+        result = note
+        this.notes.push(note._id)
+        return this.save() 
       })
       .then(() => resolve(result))
       .catch(reject)
-  });
-};
+  })
+}
 
 listSchema.methods.removeNoteById = function(noteId) {
   return new Promise((resolve, reject) => {
     this.notes.filter( value => {
-      if (value === noteId) return false;
-      return true;
+      if (value === noteId) return false
+      return true
     })
     this.save()
     .then(() => {
@@ -46,4 +48,4 @@ listSchema.methods.removeNoteById = function(noteId) {
   })
 }
 
-module.exports = mongoose.model('List', listSchema);
+module.exports = mongoose.model('List', listSchema)
