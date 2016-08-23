@@ -5,6 +5,7 @@
 const Router = require('express').Router
 const createError = require('http-errors')
 const jsonParser = require('body-parser').json()
+const parseBearer = require('../lib/parse-bearer-auth')
 const debug = require('debug')('note:list-router')
 
 // app modules
@@ -15,10 +16,12 @@ const Note = require('../model/note')
 let listRouter = module.exports = exports = new Router()
 
 // module logic
-listRouter.post('/list', jsonParser, function(req, res, next){
+listRouter.post('/list', parseBearer, jsonParser, function(req, res, next){
   debug('POST /api/list')
   if (!req.body.name )
     return next(createError(400, 'ERROR: list requires name field'))
+  req.body.userId = req.user._id
+
   new List(req.body).save().then( list => {
     res.json(list)
   }).catch(next)

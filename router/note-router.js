@@ -5,6 +5,7 @@
 const Router = require('express').Router
 const createError = require('http-errors')
 const jsonParser = require('body-parser').json()
+const parseBearer = require('../lib/parse-bearer-auth')
 const debug = require('debug')('note:note-router')
 
 // app modules
@@ -15,7 +16,7 @@ const List = require('../model/list')
 let noteRouter = module.exports = exports = new Router()
 
 // module logic
-noteRouter.post('/note', jsonParser, function(req, res, next){
+noteRouter.post('/note', parseBearer, jsonParser, function(req, res, next){
   debug('POST /api/note')
   let data = req.body
   List.findById(data.listId)

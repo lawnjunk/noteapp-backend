@@ -2,6 +2,7 @@
 
 // setup env vars
 process.env.MONGODB_URI = 'mongodb://localhost/notetest'
+process.env.APP_SECRET = 'top_secret'
 
 // npm modules
 const request = require('superagent-use')
@@ -12,19 +13,51 @@ const Promise = require('bluebird')
 // app modules
 const List = require('../model/list')
 const Note = require('../model/note')
+const User = require('../model/user')
 require('../server')
 
 request.use(superPromse)
 
+function createUser(){
+  var user = new User({username: 'exam'})
+  return user.generateHash('password') // first hash there password
+  .then( user => user.save())  // save the user to make sure unique username
+  .then( user => Promise.reslove(user))
+  .catch(err => Promise.reject(err)) // reject any error
+}
 
-describe('testing list routes', function(){
-  describe('testing POST /api/list', function(){
+function createList(){
+  createUser()
+  .then( user  => {
+    return new List({name: 'example list ', userId: user._id}).save()
+  })
+  .catch(err => Promise.reject(err))
+}
+
+
+describe('testing list routes', () => {
+  before((done) => {
+    createUser()
+    .then( user => user.generateToken())
+    .then( token => this.token = token)
+    .then( () => done() )
+    .catch()
+  })
+
+  after((done) => {
+    User.remove({})
+    .then(() => done())
+    .catch(done)
+  })
+
+  describe('testing POST /api/list', () =>{
     after((done) => {
       List.remove({}).then( () => done()).catch(done)
     })
 
     it('should return a note', (done) => {
       request.post('localhost:3000/api/list')
+      .set('Authorization', `Bearer ${this.token}`)
       .send({ name: 'groceries' })
       .then( res => {
         let data = res.body
@@ -35,7 +68,7 @@ describe('testing list routes', function(){
     })
   })
 
-  describe('testing GET /api/list', function(){
+  describe('testing GET /api/list', () => {
     before((done) => {
       Promise.all([
         new List({name: 'first list'}).save(),
@@ -60,7 +93,7 @@ describe('testing list routes', function(){
     })
   })
 
-  describe('testing GET /api/list/:id', function(){
+  describe('testing GET /api/list/:id', () => {
     before((done) => {
       new List({name: 'example list'}).save()
       .then( list => {
@@ -102,7 +135,7 @@ describe('testing list routes', function(){
     })
   })
 
-  describe('testing PUT /api/list/:id', function(){
+  describe('testing PUT /api/list/:id', () => {
     before((done) => {
       new List({name: 'example list'}).save()
       .then((list) => {
@@ -129,7 +162,7 @@ describe('testing list routes', function(){
     })
   })
 
-  describe('testing DELETE /api/list/:id', function(){
+  describe('testing DELETE /api/list/:id', () => {
     before((done) => {
       new List({name: 'example list'}).save()
       .then((list) => {
